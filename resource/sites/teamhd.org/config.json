@@ -24,14 +24,14 @@
 	    "category": 0,
 	    "title": 1,
 	    "link": 1,
-	    "url": 2,
-        "comments": 5,
-        "time": 10,
-        "size": 6,
+	    "url": 1,
+        "comments": 2,
+        "time": 1,
+        "size": 4,
         "author": 4,
-        "seeders": 7,
-        "leechers": 8,
-        "completed": 9
+        "seeders": 3,
+        "leechers": 3,
+        "completed": 4
 	},
 	"fieldSelector": {
 	  "title": {
@@ -43,12 +43,23 @@
         "filters": ["query.attr('href')", "'https://teamhd.org/'+query"]
 	  },
 	  "url": {
-		"selector": [""],
-        "filters": ["query.children().attr('href')", "'https://teamhd.org/'+query"]
+		"selector": ["a[href*='download.php?id=']"],
+        "filters": ["query.attr('href')", "'https://teamhd.org/'+query"]
 	  },
 	  "time": {
+		"selector": ["small"]
+	  },
+	  "size": {
+		"selector": ["br"],
+        "filters": ["$(query[0].previousSibling).text().sizeToNumber()"]
+	  },
+	  "completed": {
+		"selector": ["strong"],
+        "filters": ["query.text()"]
+	  },
+	  "leechers": {
 		"selector": [""],
-        "filters": ["'20'+query.text()"]
+        "filters": ["query.text().split('|')[1]"]
 	  },
 	  "progress": {
         "selector": ["td.ttable_seeding font[color='green'], td.ttable_seeding font[color='black']", "td.ttable_seeding font[color='#ff0000']", ""],
@@ -124,12 +135,12 @@
           "filters":  ["query.text()"]
         },
         "seeding": {
-	      "selector": ["b:contains('Currently seeding')"],
+	      "selector": ["img[title='Distributes'] + font > font"],
           "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
         },
         "seedingSize": {
-	        "selector": ["b:contains('Currently seeding') + br + table tr:not(:first-child) > td:nth-child(4)"],
-	        "filters": ["jQuery.map(query, (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+	        "selector": [""],
+	        "filters": [""]
         }
       }
     },
